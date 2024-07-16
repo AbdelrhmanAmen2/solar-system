@@ -9,6 +9,7 @@ on:
 
 env:
   MONGO_URI: "mongodb://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@10.10.0.61:8635,10.10.0.197:8635/test?authSource=admin"
+
 jobs:
   unit-testing:
     name: Unit Testing

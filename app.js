@@ -5,14 +5,18 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 const cors = require("cors");
+require("dotenv").config();
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "/")));
 app.use(cors());
 
+mongoose.set("strictQuery", false);
 mongoose.connect(
 	process.env.MONGO_URI,
 	{
+		user: process.env.MONGO_USERNAME,
+		pass: process.env.MONGO_PASSWORD,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	},
@@ -20,7 +24,9 @@ mongoose.connect(
 		if (err) {
 			console.log("error!! " + err);
 		} else {
-			//  console.log("MongoDB Connection Successful")
+			app.listen(3000, () => {
+				console.log("Server successfully running on port - " + 3000);
+			});
 		}
 	}
 );
@@ -80,10 +86,6 @@ app.get("/ready", function (req, res) {
 	res.send({
 		status: "ready",
 	});
-});
-
-app.listen(3000, () => {
-	console.log("Server successfully running on port - " + 3000);
 });
 
 module.exports = app;
